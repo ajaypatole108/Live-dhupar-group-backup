@@ -1,0 +1,37 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2021-08-02 11:18:22.110454",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "Default",
+ "modified": "2021-10-21 14:21:28.204717",
+ "modified_by": "Administrator",
+ "module": "Dhupar Group",
+ "name": "Ordered Items To Be Delivered(L&T)",
+ "owner": "gurshish@dhupargroup.com",
+ "prepared_report": 0,
+ "query": "select \r\n `tabSales Order`.`name` as \"Sales Order:Link/Sales Order:120\",\r\n `tabSales Order`.`po_no` as \"Customer Po.No:200\",\r\n `tabSales Order`.`po_date` as \"Customer Po.Date:Date\",\r\n `tabSales Order`.`customer` as \"Customer:Link/Customer:120\",\r\n `tabSales Order`.`transaction_date` as \"Date:Date\",\r\n `tabSales Order Item`.item_code as \"Item:Link/Item:120\",\r\n `tabSales Order Item`.description as \"Description::200\",\r\n `tabSales Order Item`.qty as \"Qty:Float:140\",\r\n `tabSales Order Item`.delivered_qty as \"Delivered Qty:Float:140\", \r\n(`tabSales Order Item`.qty - ifnull(`tabSales Order Item`.delivered_qty, 0)) as \"Qty to Deliver:Float:140\",\r\n `tabSales Order Item`.base_rate as \"Rate:Float:140\",\r\n`tabSales Order Item`.gst_hsn_code as \"HSN\",\r\n (select SUM(`tabBin`.actual_qty) from tabBin WHERE tabBin.warehouse in (select name from tabWarehouse WHERE tabWarehouse.parent_warehouse = \"WAGHOLI BIN RACK - DBTPL\") and tabBin.item_code = `tabSales Order Item`.item_code) as \"Wagholi Stock:Float:140\",\r\n (select SUM(`tabBin`.actual_qty) from tabBin WHERE tabBin.warehouse = \"Pune - DBTPL\" and tabBin.item_code = `tabSales Order Item`.item_code) as \"Pune Stock:Float:140\",\r\n (select SUM(`tabBin`.actual_qty) from tabBin WHERE tabBin.warehouse in (select name from tabWarehouse WHERE tabWarehouse.parent_warehouse = \"PIMPRI BIN RACK - DBTPL\") and tabBin.item_code = `tabSales Order Item`.item_code) as \"Pimpri Stock:Float:140\",\r\n (select SUM(`tabBin`.actual_qty) from tabBin WHERE tabBin.warehouse = \"Mahape - DBTPL\" and tabBin.item_code = `tabSales Order Item`.item_code) as \"Mahape Stock:Float:140\",\r\n `tabSales Order Item`.item_group as \"Item Group:Link/Item Group:120\",\r\n `tabSales Order`._assign as \"Assigned to::200\"\r\n from `tabSales Order` JOIN `tabSales Order Item` where  `tabSales Order Item`.`parent` = `tabSales Order`.`name`\r\n and `tabSales Order`.docstatus = 1  and (`tabSales Order Item`.item_group like '%%L&T%%' or `tabSales Order Item`.item_group like '%%L & T%%') and `tabSales Order`.status not in (\"Stopped\", \"Closed\") and ifnull(`tabSales Order Item`.delivered_qty,0) < ifnull(`tabSales Order Item`.qty,0)\r\norder by `tabSales Order`.transaction_date asc",
+ "ref_doctype": "Sales Order",
+ "report_name": "Ordered Items To Be Delivered(L&T)",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Stock Manager"
+  },
+  {
+   "role": "Sales User"
+  },
+  {
+   "role": "Accounts User"
+  }
+ ]
+}

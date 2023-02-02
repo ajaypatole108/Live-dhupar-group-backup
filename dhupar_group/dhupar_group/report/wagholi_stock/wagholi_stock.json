@@ -1,0 +1,43 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2019-10-30 14:20:15.647827",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "Default",
+ "modified": "2021-10-21 14:21:23.892368",
+ "modified_by": "Administrator",
+ "module": "Dhupar Group",
+ "name": "Wagholi Stock",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "select tabBin.item_code as \"Item:Label:200\",\ntabItem.item_name as \"Description:Label:200\",\ntabItem.item_group as \"Group:Label:100\",\ntabItem.brand as \"Brand:Label:100\",\nSUM(tabBin.actual_qty) as \"Quantity:Label:200\"\n\n\nFROM tabBin\nINNER JOIN tabItem ON\ntabBin.item_code = tabItem.item_code\nWHERE tabBin.actual_qty <> 0 and tabBin.warehouse not LIKE \"Rejection%%\" and tabBin.warehouse not LIKE \"P%%\" and tabBin.warehouse not LIKE \"Aut%%\" and tabBin.warehouse not LIKE \"Mahape%%\"\ngroup by tabBin.item_code",
+ "ref_doctype": "Item",
+ "report_name": "Wagholi Stock",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Sales User"
+  },
+  {
+   "role": "Item Manager"
+  },
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "Stock Manager"
+  }
+ ]
+}

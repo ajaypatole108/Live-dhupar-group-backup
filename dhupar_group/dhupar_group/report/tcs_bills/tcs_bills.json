@@ -1,0 +1,35 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2021-01-12 12:31:53.931822",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "letter_head": "DBTPL",
+ "modified": "2021-10-21 14:21:28.448026",
+ "modified_by": "Administrator",
+ "module": "Dhupar Group",
+ "name": "TCS Bills",
+ "owner": "gurshish@dhupargroup.com",
+ "prepared_report": 0,
+ "query": "SELECT `Tab Sales Invoice`.`customer` AS `Customer:Link/Customer:120`,\r\n`Tab Customer`.`pan_number` AS `Pan Number`,\r\n`tabSales Taxes and Charges`.`parent` AS `Sales Invoice:Link/Sales Invoice:120`,\r\n`Tab Sales Invoice`.`base_rounded_total` AS `Invoice Amount`,\r\n`Tab Sales Invoice`.`posting_date` AS `Invoice Date:Date`,\r\n`tabSales Taxes and Charges`.`rate` AS `TCS Rate`,\r\n`tabSales Taxes and Charges`.`tax_amount` AS `TCS Amount`,\r\n`Tab Sales Invoice`.`outstanding_amount` AS `Outstanding Amount`,\r\n`Tab Payment Entry`.`posting_date` AS `Date Of Payment:Date`\r\nFROM `tabSales Taxes and Charges`\r\nLEFT JOIN `tabSales Invoice` `Tab Sales Invoice` ON `tabSales Taxes and Charges`.`parent` = `Tab Sales Invoice`.`name` LEFT JOIN `tabPayment Entry Reference` `Tab Payment Entry Reference` ON `Tab Sales Invoice`.`name` = `Tab Payment Entry Reference`.`reference_name` LEFT JOIN `tabPayment Entry` `Tab Payment Entry` ON `Tab Payment Entry Reference`.`parent` = `Tab Payment Entry`.`name` LEFT JOIN `tabCustomer` `Tab Customer` ON `Tab Sales Invoice`.`customer` = `Tab Customer`.`name`\r\nWHERE ((`tabSales Taxes and Charges`.`account_head` = 'TCS @ 0.075%% - DBTPL' or `tabSales Taxes and Charges`.`account_head` = 'TCS @ 0.1%% -Sale - DBTPL') AND `tabSales Taxes and Charges`.`parenttype` = 'Sales Invoice' AND `Tab Sales Invoice`.`docstatus` = 1 AND `Tab Sales Invoice`.`posting_date` between %(from_date)s AND %(to_date)s)",
+ "ref_doctype": "Sales Invoice",
+ "report_name": "TCS Bills",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Sales User"
+  }
+ ]
+}

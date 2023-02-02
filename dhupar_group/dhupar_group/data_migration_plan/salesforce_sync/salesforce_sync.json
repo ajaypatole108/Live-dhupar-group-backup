@@ -1,0 +1,18 @@
+{
+ "creation": "2019-08-08 16:38:37.868019",
+ "docstatus": 0,
+ "doctype": "Data Migration Plan",
+ "idx": 0,
+ "mappings": [
+  {
+   "enabled": 1,
+   "mapping": "Item Mapping"
+  }
+ ],
+ "modified": "2019-08-08 16:38:37.868019",
+ "modified_by": "gurshish@dhupargroup.com",
+ "module": "Dhupar Group",
+ "name": "SalesForce Sync",
+ "owner": "gurshish@dhupargroup.com",
+ "plan_name": "SalesForce Sync"
+}

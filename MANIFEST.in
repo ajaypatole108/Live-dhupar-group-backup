@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include dhupar_group *.css
+recursive-include dhupar_group *.csv
+recursive-include dhupar_group *.html
+recursive-include dhupar_group *.ico
+recursive-include dhupar_group *.js
+recursive-include dhupar_group *.json
+recursive-include dhupar_group *.md
+recursive-include dhupar_group *.png
+recursive-include dhupar_group *.py
+recursive-include dhupar_group *.svg
+recursive-include dhupar_group *.txt
+recursive-exclude dhupar_group *.pyc

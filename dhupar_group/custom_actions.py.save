@@ -1,0 +1,103 @@
+# License: GNU General Public License v3. See license.txt
+
+from __future__ import unicode_literals
+import frappe
+import json
+import frappe.utils
+from frappe.utils import cstr, flt, getdate, cint, nowdate, add_days, get_link_to_form
+from frappe import _
+from six import string_types
+from frappe.model.utils import get_fetch_values
+from frappe.model.mapper import get_mapped_doc
+from erpnext.stock.stock_balance import update_bin_qty, get_reserved_qty
+from frappe.desk.notifications import clear_doctype_notifications
+from frappe.contacts.doctype.address.address import get_company_address
+from erpnext.controllers.selling_controller import SellingController
+from frappe.desk.doctype.auto_repeat.auto_repeat import get_next_schedule_date
+from erpnext.selling.doctype.customer.customer import check_credit_limit
+from erpnext.stock.doctype.item.item import get_item_defaults
+from erpnext.setup.doctype.item_group.item_group import get_item_group_defaults
+from erpnext.manufacturing.doctype.production_plan.production_plan import get_items_for_material_requests
+
+@frappe.whitelist()
+def make_pick_list(source_name, target_doc=None):
+	def post_process(source, doc):
+		doc.purpose = "Pick List"		
+
+	def update_item(source, target, source_parent):
+		target.project = source_parent.project
+		target.qty = flt(source.qty) - flt(source.delivered_qty)
+
+	doc = get_mapped_doc("Sales Order", source_name, {
+		"Sales Order": {
+			"doctype": "Stock Entry",
+			"validation": {
+				"docstatus": ["=", 1]
+			},
+            "field_map": {
+                "sales_order_no": "sales_order"
+            }
+            },
+
+		"Sales Order Item": {
+			"doctype": "Stock Entry Detail",
+			"field_map": {
+				"name": "sales_order_item",
+				"parent": "sales_order",
+				"stock_uom": "uom",
+				"stock_qty": "qty"
+			},
+			"postprocess": update_item,
+			"condition": lambda doc: abs(doc.delivered_qty) < abs(doc.qty) and doc.delivered_by_supplier!=1
+		}
+	}, target_doc, post_process)
+
+	return doc
+	
+@frappe.whitelist()
+def make_put_list(source_name, target_doc=None):
+	def post_process(source, doc):
+		doc.purpose = "Put List"
+
+	def update_item(source, target, source_parent):
+		target.project = source_parent.project
+
+	doc = get_mapped_doc("Purchase Receipt", source_name, {
+		"Purchase Receipt": {
+			"doctype": "Stock Entry",
+			"validation": {
+				"docstatus": ["=", 1]
+			},
+            "field_map": {
+                "purchase_receipt_no": "purchase_receipt"
+            }
+            },
+
+		"Purchase Receipt Item": {
+			"doctype": "Stock Entry Detail",
+			"field_map": {
+				"name": "purchase_receipt_item",
+				"stock_uom": "uom",
+				"stock_qty": "qty"
+			},
+		}
+	}, target_doc, post_process)
+
+	return doc
+
+
+@frappe.whitelist()
+def get_rack_number(doc):
+
+	doc = json.loads(doc)
+	
+	for i in doc['items']:
+		bins = 
+
+	item_codes = "', '".join([str(i['item_code']) for i in doc['items']])
+
+	if doc['from_warehouse'] == "Wagholi - DBTPL":
+		bins = frappe.db.sql("SELECT B.ITEM_CODE,I.ITEM_NAME,B.WAREHOUSE,B.ACTUAL_QTY FROM tabBin B,tabItem I WHERE B.ITEM_CODE = I.NAME AND B.ITEM_CODE IN ('{item_codes}') ORDER BY B.creation".format(item_codes=item_codes), as_dict=True)
+
+
+	return bins

@@ -1,0 +1,32 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2018-12-13 18:04:14.765758",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{\"add_total_row\": 0}",
+ "letter_head": "Default",
+ "modified": "2021-10-21 14:21:23.544585",
+ "modified_by": "Administrator",
+ "module": "Dhupar Group",
+ "name": "Dhupar Stock Ledger",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT\n`tabStock Ledger Entry`.`posting_date` as \"Date:Date:120\",\n`tabStock Ledger Entry`.`item_code` as \"Item Code:Link/Item:80\",\n(SELECT `tabItem`.`Item_name` FROM `tabItem` WHERE `tabItem`.`name` = `tabStock Ledger Entry`.`Item_Code`) AS ItemName,\n`tabStock Ledger Entry`.`voucher_no`,\n`tabStock Ledger Entry`.`voucher_Type`,\n`tabStock Ledger Entry`.`warehouse`,\n`tabStock Ledger Entry`.`actual_qty`,\n`tabStock Ledger Entry`.`stock_uom`,\n`tabStock Ledger Entry`.`qty_after_transaction` As BalanceQty,\n(SELECT `tabSales Invoice Item`.`price_list_rate` FROM `tabSales Invoice Item` WHERE `tabSales Invoice Item`.`name` = `tabStock Ledger Entry`.`voucher_detail_no`) AS Rate,\n(SELECT `tabSales Invoice Item`.`discount_percentage` FROM `tabSales Invoice Item` WHERE `tabSales Invoice Item`.`name` = `tabStock Ledger Entry`.`voucher_detail_no`) AS Discount,\n(SELECT `tabSales Invoice`.`customer_name` FROM `tabSales Invoice` WHERE `tabSales Invoice`.`name` = `tabStock Ledger Entry`.`voucher_no`) AS Customer,\n(SELECT `tabSales Invoice`.`po_no` FROM `tabSales Invoice` WHERE `tabSales Invoice`.`name` = `tabStock Ledger Entry`.`voucher_no`) AS orderno,\n(SELECT `tabSales Invoice`.`po_date` FROM `tabSales Invoice` WHERE `tabSales Invoice`.`name` = `tabStock Ledger Entry`.`voucher_no`) AS orderdate,\n(SELECT `tabPurchase Receipt`.`Supplier` FROM `tabPurchase Receipt` WHERE `tabPurchase Receipt`.`name` = `tabStock Ledger Entry`.`voucher_no`) AS Supplier,\n(SELECT `tabPurchase Receipt Item`.`price_list_rate` FROM `tabPurchase Receipt Item` WHERE `tabPurchase Receipt Item`.`name` = `tabStock Ledger Entry`.`voucher_detail_no`) AS BillRate,\n(SELECT `tabPurchase Receipt Item`.`discount_percentage` FROM `tabPurchase Receipt Item` WHERE `tabPurchase Receipt Item`.`name` = `tabStock Ledger Entry`.`voucher_detail_no`) BillDiscount,\n(SELECT `tabPurchase Receipt`.`bill_no` FROM `tabPurchase Receipt` WHERE `tabPurchase Receipt`.`name` = `tabStock Ledger Entry`.`voucher_no`) AS BillNo,\n(SELECT `tabPurchase Receipt`.`bill_Date` FROM `tabPurchase Receipt` WHERE `tabPurchase Receipt`.`name` = `tabStock Ledger Entry`.`voucher_no`) AS BillDate,\n(SELECT `tabPurchase Receipt`.`lr_no` FROM `tabPurchase Receipt` WHERE `tabPurchase Receipt`.`name` = `tabStock Ledger Entry`.`voucher_no`) AS LrNo,\n(SELECT `tabPurchase Receipt`.`lr_Date` FROM `tabPurchase Receipt` WHERE `tabPurchase Receipt`.`name` = `tabStock Ledger Entry`.`voucher_no`) AS LrDate\nFROM\n   `tabStock Ledger Entry`\nOrder by `tabStock Ledger Entry`.`posting_date`",
+ "ref_doctype": "Sales Invoice",
+ "report_name": "Dhupar Stock Ledger",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Accounts Manager"
+  }
+ ]
+}

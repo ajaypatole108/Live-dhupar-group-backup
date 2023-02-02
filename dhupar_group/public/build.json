@@ -1,0 +1,7 @@
+{
+    "js/dhupar_group.min.js":[
+        "public/js/general.js",
+        "public/js/blanket_order.js",
+        "public/js/customer.js"
+    ]
+}

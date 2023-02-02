@@ -1,0 +1,32 @@
+{
+ "attach_print": 1,
+ "channel": "Email",
+ "condition": "",
+ "creation": "2019-02-04 15:42:41.021132",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Sales Order",
+ "enabled": 1,
+ "event": "Submit",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Hello Sir/Ma'am,<br> <br>\n\nThe Order {{doc.name}} was created for your PO {{doc.po_no}}.<br>\nPlease let us know about any grievance for the same.\n<br>\n<br>\nRegards,<br>\nDhupar Brothers Trading Pvt. Ltd.\n\n*This is a computer Generated Email*",
+ "modified": "2021-01-05 11:36:07.412391",
+ "modified_by": "gurshish@dhupargroup.com",
+ "module": "dhupar_group",
+ "name": "Sales order alert",
+ "owner": "gurshish@dhupargroup.com",
+ "print_format": "sales order",
+ "recipients": [
+  {
+   "email_by_document_field": "email_address"
+  },
+  {
+   "email_by_document_field": "contact_email"
+  }
+ ],
+ "sender": "Dhupar Brothers Trading Pvt. Ltd.",
+ "sender_email": "info@dhuparbrothers.com",
+ "subject": "Sales order {{ doc.name }} created for PO {{doc.po_no}}"
+}
